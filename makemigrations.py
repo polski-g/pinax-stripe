@@ -13,8 +13,11 @@ DEFAULT_SETTINGS = dict(
     TIME_ZONE='UTC',
     DATABASES={
         "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": ":memory:",
+            "ENGINE": os.environ.get("PINAX_STRIPE_DATABASE_ENGINE", "django.db.backends.postgresql_psycopg2"),
+            "HOST": os.environ.get("PINAX_STRIPE_DATABASE_HOST", "127.0.0.1"),
+            "PORT": os.environ.get("PINAX_STRIPE_DATABASE_PORT", "5432"),
+            "NAME": os.environ.get("PINAX_STRIPE_DATABASE_NAME", "pinax_stripe"),
+            "USER": os.environ.get("PINAX_STRIPE_DATABASE_USER", ""),
         }
     },
     MIDDLEWARE_CLASSES=[
@@ -28,7 +31,6 @@ DEFAULT_SETTINGS = dict(
         "django.contrib.contenttypes",
         "django.contrib.sessions",
         "django.contrib.sites",
-        "jsonfield",
         "pinax.stripe",
     ],
     SITE_ID=1,
